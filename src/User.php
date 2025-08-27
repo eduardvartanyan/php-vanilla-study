@@ -10,6 +10,7 @@ class User
     #[Attributes\Required(message: 'Имя не может быть пустым')]
     #[Attributes\MinLength(3)]
     private string $name;
+    #[Attributes\HumanAge]
     private int $age;
     #[Attributes\Email]
     private string $email;
