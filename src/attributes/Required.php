@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\Attributes;
 
-#[\Attribute(\Attribute::TARGET_PROPERTY)] // указывает, что атрибут может быть применен только к свойству класса
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 class Required
 {
     private string $message;
