@@ -1,0 +1,16 @@
+{
+    "name": "eduardvartanan/php-vanilla",
+    "autoload": {
+        "psr-4": {
+            "Eduardvartanan\\PhpVanilla\\": "src/",
+            "Eduardvartanan\\PhpVanilla\\Attributes\\": "src/attributes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "evartanyan1989",
+            "email": "evartanyan1989@gmail.com"
+        }
+    ],
+    "require": {}
+}
