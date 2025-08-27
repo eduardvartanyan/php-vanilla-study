@@ -3,19 +3,15 @@ declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla;
 
+use Eduardvartanan\PhpVanilla\Attributes\MinLength;
 use Eduardvartanan\PhpVanilla\Attributes\Required;
-
-/*
- * Создай класс User с типами свойств:
-    string $name
-    int $age
-    string $email
- */
 
 class User
 {
     #[Required(message: 'Имя не может быть пустым')]
+    #[MinLength(3)]
     private string $name;
+
     private int $age;
     #[Required(message: 'Email не может быть пустым')]
     private string $email;
