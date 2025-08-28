@@ -7,7 +7,7 @@ use Eduardvartanan\PhpVanilla\Attributes\Attribute;
 
 class Validator
 {
-    /** @return list<string> */
+    /** @return string[] */
     public function validate(object $obj): array
     {
         $errors = [];
