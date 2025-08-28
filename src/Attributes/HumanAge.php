@@ -4,17 +4,17 @@ declare(strict_types=1);
 namespace Eduardvartanan\PhpVanilla\Attributes;
 
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
-class HumanAge
+class HumanAge implements Attribute
 {
     public function __construct()
     {
 
     }
 
-    public function validate(int $value): ?string
+    public function validate(mixed $value, string $field): ?string
     {
         if ($value <= 0 || $value > 150) {
-            return 'Некорректный возраст';
+            return "$field: Некорректный возраст";
         }
         return null;
     }

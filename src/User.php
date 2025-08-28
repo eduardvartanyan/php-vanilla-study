@@ -26,8 +26,7 @@ class User
 
         $errors = new Validator()->validate($this);
         if ($errors) {
-            $errorStr = implode(";\n", $errors);
-            throw new \Exception("Ошибка валидации:\n$errorStr");
+            throw new ValidationException($errors);
         }
     }
 }

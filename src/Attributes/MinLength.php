@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Eduardvartanan\PhpVanilla\Attributes;
 
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
-class MinLength
+class MinLength implements Attribute
 {
     private int $length;
 
@@ -13,10 +13,10 @@ class MinLength
         $this->length = $length;
     }
 
-    public function validate(string $value): ?string
+    public function validate(mixed $value, string $field): ?string
     {
         if (strlen($value) < $this->length) {
-            return "Строка должна быть не менее {$this->length} символов";
+            return "$field: Строка должна быть не менее {$this->length} символов";
         }
         return null;
     }

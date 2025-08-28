@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Eduardvartanan\PhpVanilla\Attributes;
 
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
-class Required
+class Required implements Attribute
 {
     private string $message;
 
@@ -13,10 +13,14 @@ class Required
         $this->message = $message;
     }
 
-    public function validate(mixed $value): ?string
+    public function validate(mixed $value, string $field): ?string
     {
-        if (empty($value)) {
-            return $this->message;
+        if (
+            $value === null
+            || (is_string($value) && trim($value) === '')
+            || $value === []
+        ) {
+            return "$field: {$this->message}";
         }
         return null;
     }

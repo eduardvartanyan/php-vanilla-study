@@ -2,8 +2,7 @@
     "name": "eduardvartanan/php-vanilla",
     "autoload": {
         "psr-4": {
-            "Eduardvartanan\\PhpVanilla\\": "src/",
-            "Eduardvartanan\\PhpVanilla\\Attributes\\": "src/attributes/"
+            "Eduardvartanan\\PhpVanilla\\": "src/"
         }
     },
     "authors": [
