@@ -11,5 +11,7 @@
             "email": "evartanyan1989@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^8.1"
+    }
 }
