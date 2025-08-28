@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Eduardvartanan\PhpVanilla\Attributes;
 
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
-class HumanAge implements Attribute
+class Positive implements Attribute
 {
     public function __construct()
     {
@@ -14,10 +14,10 @@ class HumanAge implements Attribute
     public function validate(mixed $value, string $field): ?string
     {
         if (
-            !is_int($value)
-            || ($value <= 0 || $value > 150)
+            !is_int($value) && !is_float($value)
+            || $value < 0
         ) {
-            return "$field: Некорректный возраст";
+            return "$field: Значение должно быть положительным";
         }
         return null;
     }
