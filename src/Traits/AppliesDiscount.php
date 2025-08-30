@@ -9,6 +9,8 @@ use Eduardvartanan\PhpVanilla\Domain\Validator;
 
 trait AppliesDiscount
 {
+    use HasTimestamps;
+
     #[Percent]
     private float $discountPercent = 0.0;
 
@@ -20,12 +22,11 @@ trait AppliesDiscount
         if ($errors) {
             throw new ValidationException($errors);
         }
+
+        $this->touch();
     }
     public function applyDiscount(float $amount): float
     {
-        if ($amount > 0) {
-            return (100 - $this->discountPercent) * $amount / 100;
-        }
-        return 0;
+        return max(0.0, (100.0 - $this->discountPercent) * $amount / 100.0);
     }
 }
