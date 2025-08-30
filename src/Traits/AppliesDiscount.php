@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Eduardvartanan\PhpVanilla\Traits;
 
 use Eduardvartanan\PhpVanilla\Attributes\Percent;
-use Eduardvartanan\PhpVanilla\ValidationException;
-use Eduardvartanan\PhpVanilla\Validator;
+use Eduardvartanan\PhpVanilla\Domain\Exception\ValidationException;
+use Eduardvartanan\PhpVanilla\Domain\Validator;
 
 trait AppliesDiscount
 {

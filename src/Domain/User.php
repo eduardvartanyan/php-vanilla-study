@@ -1,18 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace Eduardvartanan\PhpVanilla;
+namespace Eduardvartanan\PhpVanilla\Domain;
 
-use Eduardvartanan\PhpVanilla\Attributes;
+use Eduardvartanan\PhpVanilla\Attributes\Email;
+use Eduardvartanan\PhpVanilla\Attributes\HumanAge;
+use Eduardvartanan\PhpVanilla\Attributes\MinLength;
+use Eduardvartanan\PhpVanilla\Attributes\Required;
+use Eduardvartanan\PhpVanilla\Domain\Exception\ValidationException;
 
 class User
 {
-    #[Attributes\Required(message: 'Имя не может быть пустым')]
-    #[Attributes\MinLength(3)]
+    #[Required(message: 'Имя не может быть пустым')]
+    #[MinLength(3)]
     private string $name;
-    #[Attributes\HumanAge]
+    #[HumanAge]
     private int $age;
-    #[Attributes\Email]
+    #[Email]
     private string $email;
 
     /**

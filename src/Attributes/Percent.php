@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\Attributes;
 
-#[\Attribute(\Attribute::TARGET_CLASS)]
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 class Percent implements Attribute
 {
     public function __construct()

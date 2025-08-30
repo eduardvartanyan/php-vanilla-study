@@ -1,6 +1,6 @@
 <?php
 
-namespace Eduardvartanan\PhpVanilla;
+namespace Eduardvartanan\PhpVanilla\Domain\Exception;
 
 final class ValidationException extends \RuntimeException
 {

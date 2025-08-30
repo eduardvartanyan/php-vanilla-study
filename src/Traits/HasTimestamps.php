@@ -11,6 +11,7 @@ trait HasTimestamps
     public function initTimestamps(): void
     {
         $this->createdAt = new \DateTimeImmutable('now');
+        $this->updatedAt = new \DateTimeImmutable('now');
     }
     public function touch(): void
     {

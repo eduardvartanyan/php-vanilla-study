@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eduardvartanan\PhpVanilla;
+namespace Eduardvartanan\PhpVanilla\Domain;
 
 use Eduardvartanan\PhpVanilla\Attributes\Attribute;
 
