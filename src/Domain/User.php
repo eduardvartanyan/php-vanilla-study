@@ -12,7 +12,7 @@ use Eduardvartanan\PhpVanilla\Domain\Exception\ValidationException;
 class User
 {
     #[Required(message: 'Имя не может быть пустым')]
-    #[MinLength(3)]
+    #[MinLength(2)]
     private string $name;
     #[HumanAge]
     private int $age;

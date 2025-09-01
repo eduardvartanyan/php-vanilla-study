@@ -15,7 +15,7 @@ class HumanAge implements Attribute
     {
         if (
             !is_int($value)
-            || ($value <= 0 || $value > 150)
+            || ($value <= 0 || $value > 120)
         ) {
             return "$field: Некорректный возраст";
         }
