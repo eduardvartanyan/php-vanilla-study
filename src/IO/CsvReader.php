@@ -17,6 +17,9 @@ final readonly class CsvReader implements ReaderInterface
         }
     }
 
+    /**
+     * @return \Generator<int,array<string,mixed>> yields [lineNumber => rowAssoc]
+     */
     public function rows(): \Generator
     {
         $fh = new \SplFileObject($this->path, 'r');
@@ -33,7 +36,7 @@ final readonly class CsvReader implements ReaderInterface
 
         while (!$fh->eof()) {
             $row = $fh->fgetcsv();
-            if ($row === false || $row === [null]) { continue;}
+            if ($row === false || $row === [null]) { continue; }
 
             if (count($row) < count($header)) {
                 $line = $fh->key() + 1;
