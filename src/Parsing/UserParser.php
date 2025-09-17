@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\Parsing;
 
@@ -20,8 +21,7 @@ final class UserParser implements ParserInterface
                 (string) ($row['email'] ?? '')
             );
         } catch (ValidationException $e) {
-            $details = 'Некорректные данные пользователя. ' . $e->getMessage();
-            throw new ParseException($details);
+            throw new ParseException('Некорректные данные пользователя. ' . $e->getMessage());
         } catch (\Throwable $e) {
             throw new ParseException('Ошибка при создании пользователя');
         }
