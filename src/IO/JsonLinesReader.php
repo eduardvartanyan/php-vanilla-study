@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\IO;
 
+use Eduardvartanan\PhpVanilla\Domain\Exception\ParseException;
+
 final readonly class JsonLinesReader implements ReaderInterface
 {
     public function __construct(
@@ -37,7 +39,7 @@ final readonly class JsonLinesReader implements ReaderInterface
             }
 
             if (!json_validate($line)) {
-                throw new \RuntimeException("Некорректная строка JSON в строке {$lineNumber}");
+                throw new ParseException("Некорректная строка JSON в строке {$lineNumber}");
             }
 
             $data = json_decode($line, true);

@@ -7,6 +7,6 @@ final class DuplicateEntityException extends \RuntimeException
 {
     public function __construct()
     {
-        parent::__construct('Дублируются строки в исходной файле');
+        parent::__construct('Дублируются строки в исходном файле');
     }
 }

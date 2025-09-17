@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\IO;
 
+use Eduardvartanan\PhpVanilla\Domain\Exception\AggregateImportException;
+use Eduardvartanan\PhpVanilla\Domain\Exception\ParseException;
+
 final readonly class CsvReader implements ReaderInterface
 {
     public function __construct(
@@ -10,10 +13,10 @@ final readonly class CsvReader implements ReaderInterface
         private string $delimiter = ',')
     {
         if (!is_file($this->path)) {
-            throw new \RuntimeException("Файл не найден: {$this->path}");
+            throw new AggregateImportException("Файл не найден: {$this->path}");
         }
         if (!is_readable($this->path)) {
-            throw new \RuntimeException("Файл не доступен для чтения: {$this->path}");
+            throw new AggregateImportException("Файл не доступен для чтения: {$this->path}");
         }
     }
 
@@ -28,7 +31,7 @@ final readonly class CsvReader implements ReaderInterface
 
         $header = $fh->fgetcsv();
         if ($header === false || $header === [null]) {
-            throw new \RuntimeException("Пустой или некорректный CSV: {$this->path}");
+            throw new AggregateImportException("Пустой или некорректный CSV: {$this->path}");
         }
         if (isset($header[0])) {
             $header[0] = preg_replace('/^\xEF\xBB\xBF/', '', (string)$header[0]);
@@ -40,7 +43,8 @@ final readonly class CsvReader implements ReaderInterface
 
             if (count($row) < count($header)) {
                 $line = $fh->key() + 1;
-                throw new \RuntimeException("Неполная строка CSV (ожидалось ".count($header).", получено ".count($row).") в строке {$line}");
+                throw new ParseException("Неполная строка CSV (ожидалось " . count($header)
+                    . ", получено " . count($row) . ") в строке $line");
             }
 
             $assoc = array_combine($header, array_slice($row, 0, count($header)));
