@@ -7,6 +7,6 @@ final class ParseException extends \RuntimeException
 {
     public function __construct($message)
     {
-        parent::__construct('Ошибка парсинга: ' . $message);
+        parent::__construct('Ошибка парсинга. ' . $message);
     }
 }
