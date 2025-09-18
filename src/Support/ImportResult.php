@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\Support;
 
@@ -6,14 +7,13 @@ final class ImportResult
 {
     private int $successCount = 0;
     private array $errors = [];
-    private array $errorsByType = [];
 
     private function buildChain(\Throwable $e): array
     {
         $chain = [];
         for ($cur = $e; $cur; $cur = $cur->getPrevious()) {
             $msg = $cur->getMessage();
-            $chain = ($cur::class) . ': ' . ($msg !== '' ? $msg : '(no message)');
+            $chain[] = ($cur::class) . ': ' . ($msg !== '' ? $msg : '(no message)');
         }
         return $chain;
     }
@@ -46,5 +46,11 @@ final class ImportResult
     public function getErrorCount(): int
     {
         return count($this->errors);
+    }
+
+    /** @return array<int,array<string,mixed>> */
+    public function errors(): array
+    {
+        return $this->errors;
     }
 }
