@@ -48,6 +48,10 @@ class Product implements Priceable
     {
         return $this->id;
     }
+    public function getName(): string
+    {
+        return $this->name;
+    }
     public function getPrice(): float
     {
         return $this->price;

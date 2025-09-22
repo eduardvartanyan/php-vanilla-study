@@ -33,4 +33,17 @@ class User
             throw new ValidationException($errors);
         }
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+    public function getAge(): int
+    {
+        return $this->age;
+    }
 }
