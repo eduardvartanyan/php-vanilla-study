@@ -8,6 +8,7 @@ use Eduardvartanan\PhpVanilla\Attributes\HumanAge;
 use Eduardvartanan\PhpVanilla\Attributes\MinLength;
 use Eduardvartanan\PhpVanilla\Attributes\Required;
 use Eduardvartanan\PhpVanilla\Domain\Exception\ValidationException;
+use Exception;
 
 class User
 {
@@ -20,7 +21,7 @@ class User
     private string $email;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(string $name, int $age, string $email)
     {

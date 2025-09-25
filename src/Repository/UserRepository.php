@@ -48,7 +48,7 @@ final class UserRepository
         return $row ?: null;
     }
 
-    public function findByMail(string $email): ?array
+    public function findByEmail(string $email): ?array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email;");
         $stmt->execute([':email' => $email]);
