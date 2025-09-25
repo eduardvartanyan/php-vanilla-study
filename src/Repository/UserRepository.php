@@ -21,8 +21,23 @@ final class UserRepository
     public function create(string $name, string $email, int $age): int
     {
         $stmt = $this->pdo->prepare("INSERT INTO users (name, email, age) VALUES (:name, :email, :age);");
-        $stmt->execute([':name' => $name, ':email' => $email, ':age' => $age]);
+        $stmt->execute([
+            ':name' => $name ?: $email,
+            ':email' => $email,
+            ':age' => $age ?: null,
+        ]);
         return (int) $this->pdo->lastInsertId();
+    }
+
+    public function savePasswordHash(int $id, string $hash): bool
+    {
+        $stmt = $this->pdo->prepare(
+            "UPDATE users SET password_hash = :hash WHERE id = :id;"
+        );
+        return $stmt->execute([
+            ':id' => $id,
+            ':hash' => $hash,
+        ]);
     }
 
     public function find(int $id): ?array
