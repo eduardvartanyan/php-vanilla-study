@@ -5,7 +5,7 @@ use Eduardvartanan\PhpVanilla\Contracts\CsrfTokenManagerInterface;
 use Eduardvartanan\PhpVanilla\Domain\Auth\AuthService;
 use Eduardvartanan\PhpVanilla\Domain\Auth\RegistrationService;
 
-class AuthController
+final class AuthController
 {
     public function __construct(
         private readonly AuthService               $auth,
