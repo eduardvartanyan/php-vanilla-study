@@ -33,6 +33,14 @@ final class UserRepository
         return $row ?: null;
     }
 
+    public function findByMail(string $email): ?array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email;");
+        $stmt->execute([':email' => $email]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
     public function list(int $limit = 10, int $offset = 0): ?array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users ORDER BY id LIMIT :limit OFFSET :offset;");
@@ -41,6 +49,20 @@ final class UserRepository
         $stmt->execute();
         $rows = $stmt->fetchAll();
         return $rows ?: null;
+    }
+
+    public function getPasswordHash(int $id): ?string
+    {
+        $stmt = $this->pdo->prepare("SELECT password_hash FROM users WHERE id = :id");
+        $stmt->execute([':id'=>$id]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
+    public function touchLastLogin(int $id): void
+    {
+        $stmt = $this->pdo->prepare("UPDATE users SET last_login_at = NOW() WHERE id = :id");
+        $stmt->execute([':id' => $id]);
     }
 
     public function update(int $id, array $data): bool

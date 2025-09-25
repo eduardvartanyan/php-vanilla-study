@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eduardvartanan\PhpVanilla\Support;
+namespace Eduardvartanan\PhpVanilla\Repository;
 
 use Eduardvartanan\PhpVanilla\Contracts\SessionRepositoryInterface;
 use PDO;
@@ -29,8 +29,8 @@ class PdoSessionRepository implements SessionRepositoryInterface
             "SELECT user_id FROM sessions WHERE token = :token AND expires_at > :expires_at LIMIT 1;"
         );
         $stmt->execute([
-            'token'      => $token,
-            'expires_at' => $now->format('Y-m-d H:i:s'),
+            ':token'      => $token,
+            ':expires_at' => $now->format('Y-m-d H:i:s'),
         ]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ? (int) $row['user_id'] : null;
@@ -38,12 +38,12 @@ class PdoSessionRepository implements SessionRepositoryInterface
     public function deleteByToken(string $token): void
     {
         $stmt = $this->pdo->prepare("DELETE FROM sessions WHERE token = :token");
-        $stmt->execute(['token' => $token]);
+        $stmt->execute([':token' => $token]);
     }
     public function deleteExpired(\DateTimeImmutable $now): int
     {
         $stmt = $this->pdo->prepare("DELETE FROM sessions WHERE expires_at <= :expires_at");
-        $stmt->execute(['expires_at' => $now->format('Y-m-d H:i:s')]);
+        $stmt->execute([':expires_at' => $now->format('Y-m-d H:i:s')]);
         return $stmt->rowCount();
     }
 }
