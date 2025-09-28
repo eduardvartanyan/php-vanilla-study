@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+namespace Eduardvartanan\PhpVanilla\Http\Controllers;
+
 use Eduardvartanan\PhpVanilla\Contracts\CsrfTokenManagerInterface;
 use Eduardvartanan\PhpVanilla\Domain\Auth\AuthService;
 use Eduardvartanan\PhpVanilla\Domain\Auth\RegistrationService;
