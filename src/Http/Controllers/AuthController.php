@@ -3,16 +3,17 @@ declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\Http\Controllers;
 
+use DateMalformedStringException;
 use Eduardvartanan\PhpVanilla\Contracts\CsrfTokenManagerInterface;
 use Eduardvartanan\PhpVanilla\Domain\Auth\AuthService;
 use Eduardvartanan\PhpVanilla\Domain\Auth\RegistrationService;
 
-final class AuthController
+final readonly class AuthController
 {
     public function __construct(
-        private readonly AuthService               $auth,
-        private readonly RegistrationService       $reg,
-        private readonly CsrfTokenManagerInterface $csrf
+        private AuthService               $auth,
+        private RegistrationService       $reg,
+        private CsrfTokenManagerInterface $csrf
     ) {}
 
     public function showLogin(): void
@@ -40,7 +41,7 @@ final class AuthController
             return;
         }
         http_response_code(401);
-        echo 'Invalid credentials';
+        echo 'Неверный логин или пароль';
     }
 
     public function showRegister(): void

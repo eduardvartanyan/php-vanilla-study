@@ -16,7 +16,7 @@ class Container
     /**
      * @throws \ReflectionException
      */
-    public function get(string $id): array
+    public function get(string $id): object
     {
         if (isset($this->instances[$id])) { return $this->instances[$id]; }
 
