@@ -53,8 +53,13 @@ try {
             $authController->logout();
             break;
 
+        case '/':
+            echo 'Главная страница';
+            break;
+
         default:
-            echo "Главная страница";
+            http_response_code(404);
+            echo '404 Страница не найдена';
     }
 } catch (ReflectionException $e) {
     echo $e->getMessage();

@@ -13,13 +13,12 @@ final class RegistrationService
         private PasswordHasherInterface $hasher,
     ) {}
 
-    public function register(string $email, string $plainPassword, string $name = '', int $age = 0): bool
+    public function register(string $email, string $plainPassword, string $name = '', int $age = 0): int
     {
-        if ($this->users->findByMail($email)) {
+        if ($this->users->findByEmail($email)) {
             throw new \RuntimeException('User already exists');
         }
         $hash = $this->hasher->hash($plainPassword);
-        $userId = $this->users->create($email, $name, $age);
-        return $this->users->savePasswordHash($userId, $hash);
+        return $this->users->create($email, $name, $age, $hash);
     }
 }

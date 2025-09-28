@@ -59,7 +59,9 @@ final readonly class AuthController
         }
         $this->reg->register(
             $_POST['email'] ?? '',
-            $_POST['password'] ?? ''
+            $_POST['password'] ?? '',
+            $_POST['name'] ?? '',
+            (int) $_POST['age'] ?? 0,
         );
         header('Location: /login');
     }

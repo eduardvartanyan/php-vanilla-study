@@ -18,13 +18,16 @@ final class UserRepository
     /**
      * @return int — id добавленного пользователя
      */
-    public function create(string $name, string $email, int $age): int
+    public function create(string $email, string $name, int $age, string $hash): int
     {
-        $stmt = $this->pdo->prepare("INSERT INTO users (name, email, age) VALUES (:name, :email, :age);");
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO users (name, email, age, password_hash) VALUES (:name, :email, :age, :password_hash);"
+        );
         $stmt->execute([
             ':name' => $name ?: $email,
             ':email' => $email,
             ':age' => $age ?: null,
+            ':password_hash' => $hash,
         ]);
         return (int) $this->pdo->lastInsertId();
     }
@@ -68,10 +71,10 @@ final class UserRepository
 
     public function getPasswordHash(int $id): ?string
     {
-        $stmt = $this->pdo->prepare("SELECT password_hash FROM users WHERE id = :id");
+        $stmt = $this->pdo->prepare("SELECT password_hash FROM users WHERE id = :id;");
         $stmt->execute([':id'=>$id]);
         $row = $stmt->fetch();
-        return $row ?: null;
+        return $row['password_hash'] ?: null;
     }
 
     public function touchLastLogin(int $id): void
