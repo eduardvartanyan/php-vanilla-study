@@ -6,10 +6,10 @@ namespace Eduardvartanan\PhpVanilla\Domain\Auth;
 use Eduardvartanan\PhpVanilla\Contracts\PasswordHasherInterface;
 use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 
-final class RegistrationService
+final readonly class RegistrationService
 {
     public function __construct(
-        private UserRepository $users,
+        private UserRepository          $users,
         private PasswordHasherInterface $hasher,
     ) {}
 

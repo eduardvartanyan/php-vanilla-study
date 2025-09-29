@@ -19,15 +19,17 @@ class User
     private int $age;
     #[Email]
     private string $email;
+    private int $id;
 
     /**
      * @throws Exception
      */
-    public function __construct(string $name, int $age, string $email)
+    public function __construct(string $name, int $age, string $email, ?int $id = null)
     {
         $this->name = $name;
         $this->age = $age;
         $this->email = $email;
+        $this->id = $id;
 
         $errors = new Validator()->validate($this);
         if ($errors) {
@@ -46,5 +48,9 @@ class User
     public function getAge(): int
     {
         return $this->age;
+    }
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

@@ -6,8 +6,19 @@ use Eduardvartanan\PhpVanilla\Support\Database;
 
 if (isset($_COOKIE['auth_token'])) {
     $userId = new PdoSessionRepository(Database::pdo())->findUserByValidToken($_COOKIE['auth_token'], new DateTimeImmutable());
-    $user = new UserRepository()->find($userId);
-    echo 'Привет, ' . $user['name'] . '!';
+
+    if (!$userId) {
+        Header('Location: /logout');
+    }
+
+    $userName = '';
+    try {
+        $user = new UserRepository()->find($userId);
+        $userName = $user->getName();
+    } catch (Exception $e) {
+        $userName = 'уважаемый';
+    }
+    echo 'Привет, ' . $userName . '!';
 } else {
     /** @var string $token */
 ?>

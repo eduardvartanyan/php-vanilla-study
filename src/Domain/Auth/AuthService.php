@@ -11,32 +11,34 @@ use Eduardvartanan\PhpVanilla\Contracts\SessionRepositoryInterface;
 use Eduardvartanan\PhpVanilla\Contracts\TokenGeneratorInterface;
 use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 
-final class AuthService
+final readonly class AuthService
 {
     public function __construct(
-        private readonly UserRepository             $users,
-        private readonly PasswordHasherInterface    $hasher,
-        private readonly SessionRepositoryInterface $sessions,
-        private readonly TokenGeneratorInterface    $tokens,
-        private readonly AuthStorageInterface       $storage
+        private UserRepository             $users,
+        private PasswordHasherInterface    $hasher,
+        private SessionRepositoryInterface $sessions,
+        private TokenGeneratorInterface    $tokens,
+        private AuthStorageInterface       $storage
     ) {}
 
     /**
      * @throws DateMalformedStringException
+     * @throws \Exception
      */
     public function attempt(string $email, string $password, bool $remember = false): bool
     {
         $user = $this->users->findByEmail($email);
         if (!$user) { return false; }
 
-        $hash = $this->users->getPasswordHash($user['id']);
+        $userId = $user->getId();
+        $hash = $this->users->getPasswordHash($userId);
         if (!$this->hasher->verify($password, $hash)) { return false; }
 
         $ttl = $remember ? '+30 days' : '+2 hours';
         $expires = new DateTimeImmutable($ttl);
         $token = $this->tokens->generate();
         $this->sessions->create(
-            $user['id'],
+            $userId,
             $token,
             $expires,
             $_SERVER['REMOTE_ADDR'] ?? null,
@@ -44,7 +46,7 @@ final class AuthService
         );
         $this->storage->setToken($token, $expires);
 
-        $this->users->touchLastLogin($user['id']);
+        $this->users->touchLastLogin($userId);
 
         return true;
     }

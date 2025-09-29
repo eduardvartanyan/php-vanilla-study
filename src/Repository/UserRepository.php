@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\Repository;
 
-use PDO;
+use Eduardvartanan\PhpVanilla\Domain\User;
 use Eduardvartanan\PhpVanilla\Support\Database;
+use PDO;
 
 final class UserRepository
 {
@@ -36,20 +37,42 @@ final class UserRepository
         return (int) $this->pdo->lastInsertId();
     }
 
-    public function find(int $id): ?array
+    /**
+     * @throws \Exception
+     */
+    public function find(int $id): ?User
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id;");
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch();
-        return $row ?: null;
+
+        if (!$row) { return null; }
+
+        return new User(
+            (string) $row['name'],
+            (int) $row['age'],
+            (string) $row['email'],
+            (int) $row['id']
+        );
     }
 
-    public function findByEmail(string $email): ?array
+    /**
+     * @throws \Exception
+     */
+    public function findByEmail(string $email): ?User
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email;");
         $stmt->execute([':email' => $email]);
         $row = $stmt->fetch();
-        return $row ?: null;
+
+        if (!$row) { return null; }
+
+        return new User(
+            (string) $row['name'],
+            (int) $row['age'],
+            (string) $row['email'],
+            (int) $row['id']
+        );
     }
 
     public function list(int $limit = 10, int $offset = 0): ?array
