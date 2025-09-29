@@ -74,7 +74,8 @@ final class UserRepository
         $stmt = $this->pdo->prepare("SELECT password_hash FROM users WHERE id = :id;");
         $stmt->execute([':id'=>$id]);
         $row = $stmt->fetch();
-        return $row['password_hash'] ?: null;
+        if (!$row || !isset($row['password_hash'])) { return null; }
+        return $row['password_hash'];
     }
 
     public function touchLastLogin(int $id): void
