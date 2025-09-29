@@ -18,8 +18,12 @@ final class UserRepository
     /**
      * @return int — id добавленного пользователя
      */
-    public function create(string $email, string $name, int $age, string $hash): int
+    public function create(string $email, string $name, int $age, ?string $hash = null): int
     {
+        if ($hash === null) {
+            $hash = password_hash($email, PASSWORD_BCRYPT);
+        }
+
         $stmt = $this->pdo->prepare(
             "INSERT INTO users (name, email, age, password_hash) VALUES (:name, :email, :age, :password_hash);"
         );
@@ -30,17 +34,6 @@ final class UserRepository
             ':password_hash' => $hash,
         ]);
         return (int) $this->pdo->lastInsertId();
-    }
-
-    public function savePasswordHash(int $id, string $hash): bool
-    {
-        $stmt = $this->pdo->prepare(
-            "UPDATE users SET password_hash = :hash WHERE id = :id;"
-        );
-        return $stmt->execute([
-            ':id' => $id,
-            ':hash' => $hash,
-        ]);
     }
 
     public function find(int $id): ?array
