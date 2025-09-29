@@ -1,20 +1,9 @@
 <?php
 
-use Eduardvartanan\PhpVanilla\Domain\Auth\CsrfTokenManager;
-use Eduardvartanan\PhpVanilla\Repository\PdoSessionRepository;
-use Eduardvartanan\PhpVanilla\Repository\UserRepository;
-use Eduardvartanan\PhpVanilla\Support\Database;
-use Random\RandomException;
-
-try {
-    $token = new CsrfTokenManager()->getToken();
-} catch (RandomException $e) {
-    $token = '';
-}
-
-if ($_COOKIE['auth_token']) {
+if (isset($_COOKIE['auth_token'])) {
     header('Location: /login');
 } else {
+    /** @var string $token */
 ?>
 <form method="post" action="/register">
     <input type="hidden" name="_csrf" value="<?= htmlspecialchars($token) ?>">
