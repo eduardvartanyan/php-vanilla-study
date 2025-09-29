@@ -16,7 +16,7 @@ final class RegistrationService
     public function register(string $email, string $plainPassword, string $name = '', int $age = 0): int
     {
         if ($this->users->findByEmail($email)) {
-            throw new \RuntimeException('User already exists');
+            throw new \RuntimeException('Пользователь с таким email уже существует');
         }
         $hash = $this->hasher->hash($plainPassword);
         return $this->users->create($email, $name, $age, $hash);

@@ -8,10 +8,10 @@ if (isset($_COOKIE['auth_token'])) {
 <form method="post" action="/register">
     <input type="hidden" name="_csrf" value="<?= htmlspecialchars($token) ?>">
     <label>Имя:
-        <input type="text" name="name" placeholder="Имя" required>
+        <input type="text" name="name" placeholder="Имя">
     </label>
     <label>Возраст:
-        <input type="number" name="age" placeholder="Возраст" required>
+        <input type="number" name="age" placeholder="Возраст">
     </label>
     <label>Email:
         <input type="email" name="email" placeholder="Email" required>

@@ -57,13 +57,17 @@ final readonly class AuthController
             echo 'CSRF failed';
             return;
         }
-        $this->reg->register(
-            $_POST['email'] ?? '',
-            $_POST['password'] ?? '',
-            $_POST['name'] ?? '',
-            (int) $_POST['age'] ?? 0,
-        );
-        header('Location: /login');
+        try {
+            $this->reg->register(
+                $_POST['email'] ?? '',
+                $_POST['password'] ?? '',
+                $_POST['name'] ?? '',
+                (int) $_POST['age'] ?? 0,
+            );
+            header('Location: /login');
+        } catch (\RuntimeException $e) {
+            echo $e->getMessage();
+        }
     }
 
     public function logout(): void
