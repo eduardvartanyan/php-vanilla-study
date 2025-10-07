@@ -38,7 +38,7 @@ class Product implements Priceable
 
         $this->initTimestamps();
 
-        $errors = new Validator()->validate($this);
+        $errors = new Validator()->validateObject($this);
         if ($errors) {
             throw new ValidationException($errors);
         }
@@ -70,7 +70,7 @@ class Product implements Priceable
         $clone = clone $this;
         $clone->price = $price;
 
-        $errors = new Validator()->validate($clone);
+        $errors = new Validator()->validateObject($clone);
         if ($errors) {
             throw new ValidationException($errors);
         }
@@ -84,7 +84,7 @@ class Product implements Priceable
         $clone = clone $this;
         $clone->name = $name;
 
-        $errors = new Validator()->validate($clone);
+        $errors = new Validator()->validateObject($clone);
         if ($errors) {
             throw new ValidationException($errors);
         }

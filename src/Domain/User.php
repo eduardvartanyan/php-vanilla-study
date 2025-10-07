@@ -17,6 +17,7 @@ class User
     private string $name;
     #[HumanAge]
     private int $age;
+    #[Required(message: 'Email обязателен')]
     #[Email]
     private string $email;
     private int $id;
@@ -31,7 +32,7 @@ class User
         $this->email = $email;
         $this->id = $id;
 
-        $errors = new Validator()->validate($this);
+        $errors = new Validator()->validateObject($this);
         if ($errors) {
             throw new ValidationException($errors);
         }

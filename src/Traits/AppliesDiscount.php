@@ -18,7 +18,7 @@ trait AppliesDiscount
     {
         $this->discountPercent = $percent;
 
-        $errors = new Validator()->validate($this);
+        $errors = new Validator()->validateObject($this);
         if ($errors) {
             throw new ValidationException($errors);
         }

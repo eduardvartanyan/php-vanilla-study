@@ -5,6 +5,7 @@ namespace Eduardvartanan\PhpVanilla\Http\Controllers;
 
 use Eduardvartanan\PhpVanilla\Domain\Exception\ValidationException;
 use Eduardvartanan\PhpVanilla\Domain\User;
+use Eduardvartanan\PhpVanilla\Domain\Validator;
 use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 
 final class UsersController
@@ -79,6 +80,22 @@ final class UsersController
             }
             $raw = file_get_contents('php://input') ?: '{}';
             $data = json_decode($raw, true) ?? [];
+
+            $errors = [];
+            if (array_key_exists('name', $data)) {
+                $errors = new Validator()->validateValue('name', $data['name'], ['Required', 'MinLength(2)']);
+            }
+            if (array_key_exists('email', $data)) {
+                $errors = new Validator()->validateValue('email', $data['email'], ['Required', 'Email']);
+            }
+            if (array_key_exists('age', $data)) {
+                $errors = new Validator()->validateValue('age', (int) $data['age'], ['HumanAge']);
+            }
+            if ($errors) {
+                $this->json(['errors' => $errors], 422);
+                return;
+            }
+
             if (!$this->userRepository->update($id, $data)) {
                 $this->json(['error' => 'Не удалось обновить пользователя'], 409);
             }
