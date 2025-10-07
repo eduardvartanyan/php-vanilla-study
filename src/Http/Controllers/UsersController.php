@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Eduardvartanan\PhpVanilla\Http\Controllers;
 
+use Eduardvartanan\PhpVanilla\Domain\Exception\ValidationException;
+use Eduardvartanan\PhpVanilla\Domain\User;
 use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 
 final class UsersController
@@ -29,10 +31,27 @@ final class UsersController
         [$users, $total] = $this->userRepository->list($size, ($page - 1) * $size);
 
         $this->json([
-            'data' => $users,
+            'data'  => $users,
             'total' => $total,
-            'page' => $page,
-            'size' => $size,
+            'page'  => $page,
+            'size'  => $size,
         ]);
+    }
+
+    public function store(): void
+    {
+        $raw = file_get_contents('php://input') ?: '{}';
+        $data = json_decode($raw, true) ?? [];
+
+        try {
+            $newUser = new User(
+                $data['name'] ?? '',
+                (int) $data['age'] ?? 0,
+                $data['email'] ?? '',
+            );
+            $this->userRepository->create($newUser);
+        } catch (ValidationException $e) {
+            $this->json(['errors' => $e->getMessage()], 422);
+        }
     }
 }

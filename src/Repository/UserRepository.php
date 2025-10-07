@@ -19,8 +19,10 @@ final class UserRepository
     /**
      * @return int — id добавленного пользователя
      */
-    public function create(string $email, string $name, int $age, ?string $hash = null): int
+    public function create(User $newUser, ?string $hash = null): int
     {
+        $email = $newUser->getEmail();
+
         if ($hash === null) {
             $hash = password_hash($email, PASSWORD_BCRYPT);
         }
@@ -29,9 +31,9 @@ final class UserRepository
             "INSERT INTO users (name, email, age, password_hash) VALUES (:name, :email, :age, :password_hash);"
         );
         $stmt->execute([
-            ':name' => $name ?: $email,
+            ':name' => $newUser->getName() ?: $email,
             ':email' => $email,
-            ':age' => $age ?: null,
+            ':age' => $newUser->getAge() ?: null,
             ':password_hash' => $hash,
         ]);
         return (int) $this->pdo->lastInsertId();

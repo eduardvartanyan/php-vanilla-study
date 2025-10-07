@@ -46,6 +46,8 @@ try {
         case '/users':
             if ($method == 'GET') {
                 $usersController->index();
+            } elseif ($method == 'POST') {
+                $usersController->store();
             }
             break;
 

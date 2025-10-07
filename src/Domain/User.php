@@ -22,9 +22,9 @@ class User
     private int $id;
 
     /**
-     * @throws Exception
+     * @throws ValidationException
      */
-    public function __construct(string $name, int $age, string $email, ?int $id = null)
+    public function __construct(string $name, int $age, string $email, ?int $id = 0)
     {
         $this->name = $name;
         $this->age = $age;

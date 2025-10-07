@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Eduardvartanan\PhpVanilla\Domain\Auth;
 
 use Eduardvartanan\PhpVanilla\Contracts\PasswordHasherInterface;
+use Eduardvartanan\PhpVanilla\Domain\Exception\ValidationException;
+use Eduardvartanan\PhpVanilla\Domain\User;
 use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 
 final readonly class RegistrationService
@@ -13,12 +15,18 @@ final readonly class RegistrationService
         private PasswordHasherInterface $hasher,
     ) {}
 
+    /**
+     * @throws \Exception
+     */
     public function register(string $email, string $plainPassword, string $name = '', int $age = 0): int
     {
         if ($this->users->findByEmail($email)) {
             throw new \RuntimeException('Пользователь с таким email уже существует');
         }
         $hash = $this->hasher->hash($plainPassword);
-        return $this->users->create($email, $name, $age, $hash);
+
+        $newUser = new User($name, $age, $email);
+
+        return $this->users->create($newUser, $hash);
     }
 }

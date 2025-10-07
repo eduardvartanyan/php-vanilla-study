@@ -73,7 +73,7 @@ final class ImportService
             $pdo->beginTransaction();
             foreach ($reader->rows() as $i => $row) {
                 $user = $parser->parse($row);
-                $repo->create($user->getName(), $user->getEmail(), $user->getAge());
+                $repo->create($user);
                 $result->incSuccess();
             }
             $pdo->commit();
