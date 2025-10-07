@@ -75,14 +75,18 @@ final class UserRepository
         );
     }
 
-    public function list(int $limit = 10, int $offset = 0): ?array
+    /** @return array{0: array|null, 1: int} */
+    public function list(int $limit = 10, int $offset = 0): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM users ORDER BY id LIMIT :limit OFFSET :offset;");
+        $stmt = $this->pdo->prepare("SELECT name, email, age FROM users ORDER BY id LIMIT :limit OFFSET :offset;");
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
-        $rows = $stmt->fetchAll();
-        return $rows ?: null;
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+
+        $total = (int) $this->pdo->query("SELECT COUNT(*) FROM users;")->fetchColumn();
+
+        return [$rows, $total];
     }
 
     public function getPasswordHash(int $id): ?string

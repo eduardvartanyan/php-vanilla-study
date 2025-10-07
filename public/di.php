@@ -7,7 +7,9 @@ use Eduardvartanan\PhpVanilla\Contracts\PasswordHasherInterface;
 use Eduardvartanan\PhpVanilla\Contracts\SessionRepositoryInterface;
 use Eduardvartanan\PhpVanilla\Contracts\TokenGeneratorInterface;
 use Eduardvartanan\PhpVanilla\Domain\Auth\CsrfTokenManager;
+use Eduardvartanan\PhpVanilla\Http\Controllers\UsersController;
 use Eduardvartanan\PhpVanilla\Repository\PdoSessionRepository;
+use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 use Eduardvartanan\PhpVanilla\Support\BcryptPasswordHasher;
 use Eduardvartanan\PhpVanilla\Support\Container;
 use Eduardvartanan\PhpVanilla\Support\RandomTokenGenerator;
@@ -24,3 +26,4 @@ $container->set(CsrfTokenManagerInterface::class, fn() => new CsrfTokenManager()
 $container->set(PasswordHasherInterface::class, fn() => new BcryptPasswordHasher());
 $container->set(SessionRepositoryInterface::class, fn($container) => new PdoSessionRepository($container->get(PDO::class)));
 $container->set(TokenGeneratorInterface::class, fn() => new RandomTokenGenerator());
+$container->set(UsersController::class, fn($container) => new UsersController($container->get(UserRepository::class)));
