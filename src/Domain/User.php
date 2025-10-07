@@ -53,4 +53,13 @@ class User
     {
         return $this->id;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'age' => $this->age,
+        ];
+    }
 }

@@ -15,8 +15,8 @@ try {
     $authController = $container->get(AuthController::class);
     $usersController = $container->get(UsersController::class);
 
-    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $method = $_SERVER['REQUEST_METHOD'];
+    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
+    $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
     switch ($uri) {
         case '/login':
@@ -52,8 +52,14 @@ try {
             break;
 
         default:
-            http_response_code(404);
-            echo '404 Страница не найдена';
+            if (preg_match('#^/users/(\d+)$#', $uri, $m)) {
+                if ($method === 'GET') {
+                    $usersController->show((int) $m[1]);
+                }
+            } else {
+                http_response_code(404);
+                echo '404 Страница не найдена';
+            }
     }
 } catch (ReflectionException $e) {
     echo $e->getMessage();

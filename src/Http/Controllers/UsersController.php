@@ -54,4 +54,18 @@ final class UsersController
             $this->json(['errors' => $e->getMessage()], 422);
         }
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function show(int $id): void
+    {
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
+            $this->json(['error' => 'Пользователь не найден'], 404);
+            return;
+        }
+        $this->json(['data' => $user->toArray()]);
+    }
 }

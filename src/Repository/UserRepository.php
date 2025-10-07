@@ -80,7 +80,7 @@ final class UserRepository
     /** @return array{0: array|null, 1: int} */
     public function list(int $limit = 10, int $offset = 0): array
     {
-        $stmt = $this->pdo->prepare("SELECT name, email, age FROM users ORDER BY id LIMIT :limit OFFSET :offset;");
+        $stmt = $this->pdo->prepare("SELECT id, name, email, age FROM users ORDER BY id LIMIT :limit OFFSET :offset;");
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
