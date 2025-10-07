@@ -57,6 +57,8 @@ try {
                     $usersController->show((int) $m[1]);
                 } elseif ($method === 'PATCH') {
                     $usersController->update((int) $m[1]);
+                } elseif ($method === 'DELETE') {
+                    $usersController->destroy((int) $m[1]);
                 }
             } else {
                 http_response_code(404);

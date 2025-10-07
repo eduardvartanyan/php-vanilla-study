@@ -121,9 +121,14 @@ final class UserRepository
         return $stmt->execute([':id' => $id, ':name' => $name,':email' => $email, ':age' => $age]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function delete(int $id): bool
     {
+        $this->find($id);
+
         $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = :id");
-        return $stmt->execute([':id'=>$id]);
+        return $stmt->execute([':id' => $id]);
     }
 }

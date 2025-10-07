@@ -86,4 +86,15 @@ final class UsersController
             $this->json(['error' => $e->getMessage()], 404);
         }
     }
+
+    public function destroy(int $id): void
+    {
+        try {
+            if (!$this->userRepository->delete($id)) {
+                $this->json(['error' => 'Не удалось удалить пользователя'], 409);
+            }
+        } catch (\Exception $e) {
+            $this->json(['error' => $e->getMessage()], 404);
+        }
+    }
 }
