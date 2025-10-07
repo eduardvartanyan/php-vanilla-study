@@ -55,17 +55,35 @@ final class UsersController
         }
     }
 
-    /**
-     * @throws \Exception
-     */
     public function show(int $id): void
     {
-        $user = $this->userRepository->find($id);
-
-        if (!$user) {
-            $this->json(['error' => 'Пользователь не найден'], 404);
-            return;
+        try {
+            $user = $this->userRepository->find($id);
+            if (!$user) {
+                $this->json(['error' => 'Пользователь не найден'], 404);
+                return;
+            }
+            $this->json(['data' => $user->toArray()]);
+        } catch (\Exception $e) {
+            $this->json(['error' => $e->getMessage()], 404);
         }
-        $this->json(['data' => $user->toArray()]);
+    }
+
+    public function update(int $id): void
+    {
+        try {
+            $user = $this->userRepository->find($id);
+            if (!$user) {
+                $this->json(['error' => 'Пользователь не найден'], 404);
+                return;
+            }
+            $raw = file_get_contents('php://input') ?: '{}';
+            $data = json_decode($raw, true) ?? [];
+            if (!$this->userRepository->update($id, $data)) {
+                $this->json(['error' => 'Не удалось обновить пользователя'], 409);
+            }
+        } catch (\Exception $e) {
+            $this->json(['error' => $e->getMessage()], 404);
+        }
     }
 }

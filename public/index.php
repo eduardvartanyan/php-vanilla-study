@@ -55,6 +55,8 @@ try {
             if (preg_match('#^/users/(\d+)$#', $uri, $m)) {
                 if ($method === 'GET') {
                     $usersController->show((int) $m[1]);
+                } elseif ($method === 'PATCH') {
+                    $usersController->update((int) $m[1]);
                 }
             } else {
                 http_response_code(404);

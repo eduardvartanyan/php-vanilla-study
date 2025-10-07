@@ -106,17 +106,19 @@ final class UserRepository
         $stmt->execute([':id' => $id]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function update(int $id, array $data): bool
     {
-        if (
-            !array_key_exists('name', $data)
-            || !array_key_exists('email', $data)
-            || !array_key_exists('age', $data)
-        ) { return false; }
+        $current = $this->find($id);
+        $name = $data['name'] ?? $current->getName();
+        $email = $data['email'] ?? $current->getEmail();
+        $age = $data['age'] ?? $current->getAge();
 
         $stmt = $this->pdo->prepare("UPDATE users SET name = :name, email = :email, age = :age WHERE id = :id;");
 
-        return $stmt->execute([':id' => $id, ':name' => $data['name'],':email' => $data['email'], ':age' => $data['age']]);
+        return $stmt->execute([':id' => $id, ':name' => $name,':email' => $email, ':age' => $age]);
     }
 
     public function delete(int $id): bool
