@@ -19,6 +19,7 @@ final readonly class AuthController
     public function showLogin(): void
     {
         $token = $this->csrf->getToken();
+        http_response_code(200);
         require __DIR__ . '/../../Views/auth/login.php';
     }
 
@@ -47,6 +48,7 @@ final readonly class AuthController
     public function showRegister(): void
     {
         $token = $this->csrf->getToken();
+        http_response_code(200);
         require __DIR__ . '/../../Views/auth/register.php';
     }
 
@@ -66,6 +68,7 @@ final readonly class AuthController
             );
             header('Location: /login');
         } catch (\RuntimeException $e) {
+            http_response_code(200);
             echo $e->getMessage();
         }
     }

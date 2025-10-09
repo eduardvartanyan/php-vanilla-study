@@ -7,7 +7,7 @@ use Eduardvartanan\PhpVanilla\Domain\User;
 use Eduardvartanan\PhpVanilla\Support\Database;
 use PDO;
 
-final class UserRepository
+class UserRepository
 {
     private PDO $pdo;
 

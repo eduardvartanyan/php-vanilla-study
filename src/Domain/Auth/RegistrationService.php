@@ -8,11 +8,11 @@ use Eduardvartanan\PhpVanilla\Domain\Exception\ValidationException;
 use Eduardvartanan\PhpVanilla\Domain\User;
 use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 
-final readonly class RegistrationService
+class RegistrationService
 {
     public function __construct(
-        private UserRepository          $users,
-        private PasswordHasherInterface $hasher,
+        private readonly UserRepository          $users,
+        private readonly PasswordHasherInterface $hasher,
     ) {}
 
     /**

@@ -6,7 +6,7 @@ namespace Eduardvartanan\PhpVanilla\Domain\Auth;
 use Eduardvartanan\PhpVanilla\Contracts\CsrfTokenManagerInterface;
 use Random\RandomException;
 
-final class CsrfTokenManager implements CsrfTokenManagerInterface
+class CsrfTokenManager implements CsrfTokenManagerInterface
 {
     private const string KEY = '_csrf';
 

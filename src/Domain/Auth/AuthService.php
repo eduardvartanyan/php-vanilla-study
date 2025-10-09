@@ -11,14 +11,14 @@ use Eduardvartanan\PhpVanilla\Contracts\SessionRepositoryInterface;
 use Eduardvartanan\PhpVanilla\Contracts\TokenGeneratorInterface;
 use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 
-final readonly class AuthService
+class AuthService
 {
     public function __construct(
-        private UserRepository             $users,
-        private PasswordHasherInterface    $hasher,
-        private SessionRepositoryInterface $sessions,
-        private TokenGeneratorInterface    $tokens,
-        private AuthStorageInterface       $storage
+        private readonly UserRepository             $users,
+        private readonly PasswordHasherInterface    $hasher,
+        private readonly SessionRepositoryInterface $sessions,
+        private readonly TokenGeneratorInterface    $tokens,
+        private readonly AuthStorageInterface       $storage
     ) {}
 
     /**
