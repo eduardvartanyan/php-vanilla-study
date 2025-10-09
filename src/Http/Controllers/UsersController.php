@@ -44,6 +44,12 @@ final class UsersController
         $raw = file_get_contents('php://input') ?: '{}';
         $data = json_decode($raw, true) ?? [];
 
+        $data = filter_var_array($data, [
+            'email' => FILTER_SANITIZE_EMAIL,
+            'name'  => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'age'   => FILTER_VALIDATE_INT,
+        ]);
+
         try {
             $newUser = new User(
                 $data['name'] ?? '',
@@ -80,6 +86,12 @@ final class UsersController
             }
             $raw = file_get_contents('php://input') ?: '{}';
             $data = json_decode($raw, true) ?? [];
+
+            $data = filter_var_array($data, [
+                'email' => FILTER_SANITIZE_EMAIL,
+                'name'  => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                'age'   => FILTER_VALIDATE_INT,
+            ]);
 
             $errors = [];
             if (array_key_exists('name', $data)) {

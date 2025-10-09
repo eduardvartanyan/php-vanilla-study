@@ -6,6 +6,7 @@ require_once __DIR__ . '/../public/di.php';
 
 use Eduardvartanan\PhpVanilla\Http\Controllers\AuthController;
 use Eduardvartanan\PhpVanilla\Http\Controllers\UsersController;
+use Eduardvartanan\PhpVanilla\Http\Middleware\AuthMiddleware;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
@@ -27,6 +28,12 @@ try {
             }
             break;
 
+        case '/api/login':
+            if ($method == 'POST') {
+                $authController->loginApi();
+            }
+            break;
+
         case '/register':
             if ($method === 'GET') {
                 $authController->showRegister();
@@ -44,6 +51,7 @@ try {
             break;
 
         case '/users':
+            AuthMiddleware::check();
             if ($method == 'GET') {
                 $usersController->index();
             } elseif ($method == 'POST') {
@@ -53,6 +61,7 @@ try {
 
         default:
             if (preg_match('#^/users/(\d+)$#', $uri, $m)) {
+                AuthMiddleware::check();
                 if ($method === 'GET') {
                     $usersController->show((int) $m[1]);
                 } elseif ($method === 'PATCH') {

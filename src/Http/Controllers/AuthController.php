@@ -7,6 +7,7 @@ use DateMalformedStringException;
 use Eduardvartanan\PhpVanilla\Contracts\CsrfTokenManagerInterface;
 use Eduardvartanan\PhpVanilla\Domain\Auth\AuthService;
 use Eduardvartanan\PhpVanilla\Domain\Auth\RegistrationService;
+use Firebase\JWT\JWT;
 
 final readonly class AuthController
 {
@@ -39,6 +40,32 @@ final readonly class AuthController
             !empty($_POST['remember'])
         )) {
             header('Location: /');
+            return;
+        }
+        http_response_code(401);
+        echo 'Неверный логин или пароль';
+    }
+
+    /**
+     * @throws DateMalformedStringException
+     */
+    public function loginApi(): void
+    {
+        if ($this->auth->attempt(
+            $_POST['email'] ?? '',
+            $_POST['password'] ?? ''
+        )) {
+            $payload = [
+                'sub' => $this->auth->userId(),
+                'email' => $_POST['email'],
+                'iat' => time(),
+                'exp' => time() + 60 * 60,
+            ];
+            $jwt = JWT::encode($payload, $_ENV['JWT_SECRET'], 'HS256');
+
+            http_response_code(200);
+            echo json_encode(['token' => $jwt]);
+
             return;
         }
         http_response_code(401);
