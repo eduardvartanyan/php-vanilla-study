@@ -2,12 +2,14 @@
 declare(strict_types=1);
 
 use Eduardvartanan\PhpVanilla\Contracts\AuthStorageInterface;
+use Eduardvartanan\PhpVanilla\Contracts\CacheInterface;
 use Eduardvartanan\PhpVanilla\Contracts\CsrfTokenManagerInterface;
 use Eduardvartanan\PhpVanilla\Contracts\PasswordHasherInterface;
 use Eduardvartanan\PhpVanilla\Contracts\SessionRepositoryInterface;
 use Eduardvartanan\PhpVanilla\Contracts\TokenGeneratorInterface;
 use Eduardvartanan\PhpVanilla\Domain\Auth\CsrfTokenManager;
 use Eduardvartanan\PhpVanilla\Http\Controllers\UsersController;
+use Eduardvartanan\PhpVanilla\Infrastructure\Cache\RedisCacher;
 use Eduardvartanan\PhpVanilla\Repository\PdoSessionRepository;
 use Eduardvartanan\PhpVanilla\Repository\UserRepository;
 use Eduardvartanan\PhpVanilla\Support\BcryptPasswordHasher;
@@ -27,3 +29,4 @@ $container->set(PasswordHasherInterface::class, fn() => new BcryptPasswordHasher
 $container->set(SessionRepositoryInterface::class, fn($container) => new PdoSessionRepository($container->get(PDO::class)));
 $container->set(TokenGeneratorInterface::class, fn() => new RandomTokenGenerator());
 $container->set(UsersController::class, fn($container) => new UsersController($container->get(UserRepository::class)));
+$container->set(CacheInterface::class, fn() => new RedisCacher());
